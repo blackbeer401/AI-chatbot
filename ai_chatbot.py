@@ -4,12 +4,17 @@
 #pip install dotenv
 
 #1. 환경변수 .env 파일의 openai api key 값을 읽어오는 모듈 사용
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
+
+#1. api key 읽어오기 - streamlit cloud 의 secret 에 넣어놓은 변수 
+import streamlit as st
+if "OPENAI_API_KEY" in st.secrets:
+    api_key= st.secrets["OPENAI_API_KEY"]
 
 #2. OpenAI 생성형 api를 요청하는 객체생성
 from openai import OpenAI
-client= OpenAI()
+client= OpenAI(api_key=api_key)
 
 # 사용자의 질문을 파라미터로 받아 OPANAI API 로 응답한 글씨를 리턴 해주는 기능함수 만들기
 
@@ -100,3 +105,9 @@ if question:
 # 파이썬의 모듈 목록을 저장해 놓은 문서가 있다 requirements.txt 문서를만들고 그 안에 설치할모듈 목록을 써놓으면된다.
 
 # git hun push
+
+# 이렇게 해도 에러난다 그이유는 외부 api 키를 사용하게 되다 보니 더불어 
+# .env 파일은 업로드하면 안되는 파일이다보니 
+
+# streamlit cloud 에서 배포된 프로젝트마다 사용한 인증키나 비밀번호같은 정보들을 
+# 설정해놓을 수 있는 기능이 제공된다.
